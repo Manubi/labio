@@ -16,6 +16,10 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@walletconnect/client": "^1.8.0",
+    "@web3auth/base": "^4.0.0",
+    "@web3auth/modal": "^4.2.3",
+    "@web3auth/openlogin-adapter": "^4.2.0",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.4",
     "ethers": "^5.7.2",
@@ -27,6 +31,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
+    "@types/elliptic": "^6.4.14",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
