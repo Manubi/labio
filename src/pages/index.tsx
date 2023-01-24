@@ -2,6 +2,7 @@ import { Routes } from "@/utils/routes";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 
 const navigation = [
@@ -17,10 +18,13 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Labio</title>
-        <meta name="description" content="" />
+        <title>Labio - Welcome to the future of scientific data storage</title>
+        <meta
+          name="description"
+          content="decentralized data storage for the scientific community"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon.ico" />
       </Head>
       <main className="bg-red-200">
         <div className="bg-white isolate">
@@ -59,12 +63,8 @@ export default function Home() {
               >
                 <div className="flex lg:min-w-0 lg:flex-1" aria-label="Global">
                   <a href="#" className="-m-1.5 p-1.5">
-                    <span className="sr-only">Your Company</span>
-                    <img
-                      className="h-8"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      alt=""
-                    />
+                    <span className="sr-only">Labio</span>
+                    <img className="h-14" src="/labio.png" alt="" />
                   </a>
                 </div>
                 <div className="flex lg:hidden">
@@ -89,12 +89,12 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                  <a
-                    href="#"
+                  <Link
+                    href={Routes.dashboard.landing}
                     className="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20"
                   >
-                    Log in
-                  </a>
+                    Launch App
+                  </Link>
                 </div>
               </nav>
               <Dialog
@@ -172,12 +172,15 @@ export default function Home() {
                   </div>
                   <div>
                     <h1 className="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">
-                      Save your scientific papers and data forever
+                      Welcome to the future of scientific data storage.
+                      <br />
                     </h1>
                     <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-                      Anim aute id magna aliqua ad ad non deserunt sunt. Qui
-                      irure qui lorem cupidatat commodo. Elit sunt amet fugiat
-                      veniam occaecat fugiat aliqua.
+                      Introducing our decentralized platform, built specifically
+                      for scientists. With our platform, you can easily save,
+                      share, and publish your data securely and efficiently.
+                      Join us today and experience the benefits of decentralized
+                      storage for yourself.
                     </p>
                     <div className="flex mt-8 gap-x-4 sm:justify-center">
                       <a

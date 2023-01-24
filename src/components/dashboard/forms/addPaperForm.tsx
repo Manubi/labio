@@ -1,39 +1,66 @@
+import { Button } from "@/components/button";
 import lighthouse from "@lighthouse-web3/sdk";
+import { ethers } from "ethers";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export function AddPaperForm() {
-  const [paperFile, setPaperFile] = useState(null);
+  const [data, setData] = useState(null);
+  const [encrypted, setEncrypted] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = async (data) => {
-    if (!paperFile) throw Error("No file selected");
-    const fileUrl = await deployImage();
-    console.log("fileUrl :>> ", fileUrl);
-    console.log("data :>> ", data);
-  };
-
-  const onChangePaperFile = (e) => {
-    setPaperFile(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const deployImage = async () => {
-    const progressCallback = (progressData) => {
-      const total = progressData?.total;
-      const uploaded = progressData?.uploaded;
-      const percentageToBeDone = parseInt((total / uploaded).toFixed(2));
-      let percentageDone = 100 - percentageToBeDone;
-      console.log("percentageDone", percentageDone);
+  const encryptionSignature = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const messageRequested = (await lighthouse.getAuthMessage(address)).data
+      .message;
+    const signedMessage = await signer.signMessage(messageRequested);
+    return {
+      signedMessage: signedMessage,
+      publicKey: address,
     };
+  };
 
-    const output = await lighthouse.upload(
-      paperFile,
+  //percentage of upload data done
+  const progressCallback = (progressData) => {
+    const total = progressData?.total;
+    const uploaded = progressData?.uploaded;
+    const percentageToBeDone = parseInt((total / uploaded).toFixed(2));
+    let percentageDone = 100 - percentageToBeDone;
+    console.log("percentageDone", percentageDone);
+  };
+
+  const onSubmit = async (data) => {
+    if (!data) throw Error("No file selected");
+    const fileUrl = await uploadData();
+    console.log("fileUrl :>> ", fileUrl);
+  };
+
+  const uploadData = async () => {
+    // upload encrypted file to IPFS and return the url
+    if (encrypted) {
+      const sig = await encryptionSignature();
+      const response = await lighthouse.uploadEncrypted(
+        data,
+        sig.publicKey,
+        process.env.NEXT_PUBLIC_LIGHTHOUSE_API_KEY,
+        sig.signedMessage,
+        progressCallback
+      );
+      const url = `https://gateway.lighthouse.storage/ipfs/${response.data.Hash}`;
+      console.log("Encrypted FileUrl: ", url);
+      return url;
+    }
+    // upload unencrypted file to IPFS and return the url
+    const response = await lighthouse.upload(
+      data,
       process.env.NEXT_PUBLIC_LIGHTHOUSE_API_KEY,
       progressCallback
     );
-    console.log("File Status:", output);
-    const url = `Visit at https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`;
+    const url = `Vhttps://gateway.lighthouse.storage/ipfs/${response.data.Hash}`;
+    console.log("File URL: ", url);
     return url;
   };
 
@@ -44,7 +71,7 @@ export function AddPaperForm() {
     // Display response
     console.log("ACCESSCON:", response);
   };
-
+  console.log("encrypted :>>", encrypted);
   return (
     <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="flex flex-col">
@@ -104,7 +131,33 @@ export function AddPaperForm() {
                     />
                   </div>
                 </div>
+                <div className="sm:col-span-4">
+                  <div className="flex items-start h-">
+                    <input
+                      id="encrypt"
+                      aria-describedby="encrypt-description"
+                      name="encrypt"
+                      type="checkbox"
+                      onChange={() => setEncrypted(!encrypted)}
+                      className="w-4 h-4 mt-[0.5px] text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    />
 
+                    <div className="ml-3 text-sm">
+                      <label
+                        htmlFor="encrypt"
+                        className="font-medium text-gray-700"
+                      >
+                        Encrypt data
+                      </label>
+                      <p id="encrypt-description" className="text-gray-500">
+                        The data will be encrypted before being stored on the
+                        IPFS public network. Meaning it can only be accessed by
+                        the persons who have the key to decrypt the data once
+                        downloaded.
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 <div className="sm:col-span-6">
                   <label
                     htmlFor="cover-photo"
@@ -138,7 +191,7 @@ export function AddPaperForm() {
                             id="file-upload"
                             name="file-upload"
                             type="file"
-                            onChange={(e) => setPaperFile(e)}
+                            onChange={(e) => setData(e)}
                             className="sr-only"
                           />
                         </label>
@@ -154,18 +207,12 @@ export function AddPaperForm() {
 
           <div className="pt-5">
             <div className="flex justify-end">
-              <button
-                type="button"
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
+              <Button type="button" variant="white">
                 Clear form
-              </button>
-              <button
-                type="submit"
-                className="inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
+              </Button>
+              <Button type="submit" className="inline-flex justify-center ml-3">
                 Save Paper
-              </button>
+              </Button>
             </div>
           </div>
         </form>

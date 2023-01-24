@@ -22,10 +22,16 @@ export default function Home() {
         const web3auth = new Web3Auth({
           clientId,
           web3AuthNetwork: "testnet", // mainnet, aqua, celeste, cyan or testnet
+
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x89",
-            rpcTarget: "https://rpc-mainnet.matic.network", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            chainId: "0x13881",
+            displayName: "Polygon Mumbai Testnet",
+            blockExplorer: "https://mumbai.polygonscan.com/",
+            ticker: "MATIC",
+            tickerName: "MATIC",
+            rpcTarget: "https://rpc.ankr.com/polygon_mumbai",
+            // This is the public RPC we have added, please pass on your own endpoint while creating an app
           },
           uiConfig: {
             theme: "dark",
@@ -38,14 +44,15 @@ export default function Home() {
           loginSettings: {
             mfaLevel: "default", // Pass on the mfa level of your choice: default, optional, mandatory, none
           },
-          // whiteLabel: {
-          //   name: "Labio",
-          //   logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-          //   logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-          //   defaultLanguage: "en",
-          //   dark: true, // whether to enable dark mode. defaultValue: false
-          // },
+
           adapterSettings: {
+            whiteLabel: {
+              name: "Labio",
+              logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+              logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+              defaultLanguage: "en",
+              dark: true, // whether to enable dark mode. defaultValue: false
+            },
             loginConfig: {
               // Add login configs corresponding to the provider
               // Google login
@@ -117,7 +124,7 @@ export default function Home() {
       return;
     }
     const user = await web3auth.getUserInfo();
-    console.log(user);
+    console.log("userinfo", user);
   };
 
   const logout = async () => {
@@ -252,13 +259,6 @@ export default function Home() {
 
   return (
     <div className="container">
-      <h1 className="title">
-        <a target="_blank" href="http://web3auth.io/" rel="noreferrer">
-          Web3Auth
-        </a>
-        & NextJS Example
-      </h1>
-
       <div className="grid">{provider ? loggedInView : unloggedInView}</div>
 
       <footer className="footer">
