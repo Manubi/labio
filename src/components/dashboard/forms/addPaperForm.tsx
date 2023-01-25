@@ -73,16 +73,13 @@ export function AddPaperForm() {
   };
   console.log("encrypted :>>", encrypted);
   return (
-    <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="flex flex-col">
         <button onClick={() => getAccessConditions()}>
           get Access Conditions
         </button>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-8 divide-y divide-gray-200"
-        >
-          <div className="space-y-8 divide-y divide-gray-200">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 ">
+          <div className="space-y-8 ">
             <div>
               <div>
                 <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -205,15 +202,13 @@ export function AddPaperForm() {
             </div>
           </div>
 
-          <div className="pt-5">
-            <div className="flex justify-end">
-              <Button type="button" variant="white">
-                Clear form
-              </Button>
-              <Button type="submit" className="inline-flex justify-center ml-3">
-                Save Paper
-              </Button>
-            </div>
+          <div className="flex justify-end">
+            <Button type="button" variant="white">
+              Clear form
+            </Button>
+            <Button type="submit" className="inline-flex justify-center ml-3">
+              Save Paper
+            </Button>
           </div>
         </form>
       </div>

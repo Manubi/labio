@@ -5,7 +5,8 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Avatar from "boring-avatars";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { Button } from "../button";
 
 const navigation = [
@@ -20,9 +21,20 @@ const userNavigation = [
 ];
 
 export function Navigation() {
-  const connectWallet = () => {
-    console.log("connect wallet: todo manuel");
-  };
+  const [hasMounted, setHasMounted] = useState(false);
+  const { address, connector, isConnected } = useAccount();
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
+
+  const { disconnect } = useDisconnect();
+  // Hooks
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  // Render
+  if (!hasMounted) return null;
+
   return (
     <Disclosure as="header" className="bg-white shadow">
       {({ open }) => (
@@ -75,20 +87,19 @@ export function Navigation() {
               </div>
               <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                 {/* Connect Wallet */}
-                <Button
-                  onClick={() => connectWallet()}
-                  className="mx-2 rounded-full"
-                >
-                  Connect Wallet
-                </Button>
-                {/* <button
-                  type="button"
-                  className="flex-shrink-0 p-p>1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="w-6 h-6" aria-hidden="true" />
-                </button> */}
-
+                {!isConnected &&
+                  connectors.map((connector) => (
+                    <Button
+                      disabled={!connector.ready}
+                      key={connector.id}
+                      onClick={() => connect({ connector })}
+                      className="mx-2 rounded-full"
+                    >
+                      Connect Wallet
+                    </Button>
+                  ))}
+                {isConnected && <div>{address}</div>}
+                {/* Profile dropdown */}
                 <Menu as="div" className="relative flex-shrink-0 ml-4">
                   <div>
                     <Menu.Button className="flex bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
