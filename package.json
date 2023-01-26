@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "workspaces": [
+    "data-dao"
+  ],
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
