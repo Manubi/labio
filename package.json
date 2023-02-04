@@ -6,8 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "get:deploy-info": "cp ./data-dao/src/deployment/OperatingDeploymentInfo.json ./blockchain-util/OperatingDeploymentInfo.json"
   },
+  "workspaces": [
+    "data-dao"
+  ],
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
