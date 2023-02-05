@@ -14,7 +14,7 @@ const navigation = [
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  // todo manuel add storage market data https://data.storage.market/
   return (
     <>
       <Head>

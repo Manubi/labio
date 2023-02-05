@@ -31,9 +31,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </defs>
         </svg>
       </div>
-      <div className="max-w-screen-lg m-8 mx-8 bg-white border border-gray-300 rounded-lg lg:mx-auto">
-        {children}
-      </div>
+      <div>{children}</div>
       <div className="absolute inset-x-0 top-[calc(100%-50rem)] -z-10 transform-gpu overflow-hidden blur-2xl sm:top-[calc(100%-50rem)]">
         <svg
           className="relative left-[calc(50%+3rem)] h-[18.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]"
