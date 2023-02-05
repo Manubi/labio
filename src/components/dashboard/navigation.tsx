@@ -5,8 +5,9 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Avatar from "boring-avatars";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Button } from "../button";
+import { TransactionContext } from '../../components/web3Wrap'
 
 const navigation = [
   { name: "Dashboard", href: Routes.dashboard.landing, current: true },
@@ -20,9 +21,8 @@ const userNavigation = [
 ];
 
 export function Navigation() {
-  const connectWallet = () => {
-    console.log("connect wallet: todo manuel");
-  };
+  const { connectWallet, connectedAccount } = useContext(TransactionContext);
+
   return (
     <Disclosure as="header" className="bg-white shadow">
       {({ open }) => (
@@ -75,12 +75,21 @@ export function Navigation() {
               </div>
               <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                 {/* Connect Wallet */}
+                {!connectedAccount && (
                 <Button
                   onClick={() => connectWallet()}
                   className="mx-2 rounded-full"
                 >
                   Connect Wallet
                 </Button>
+                )}
+              {connectedAccount && (
+                <Button
+                  className="mx-2 rounded-full"
+                >
+                  <h3>{`Connected: ${(connectedAccount).slice(0,5)}......${(connectedAccount).slice(-5)}`}</h3>
+                </Button>
+              )}
                 {/* <button
                   type="button"
                   className="flex-shrink-0 p-p>1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

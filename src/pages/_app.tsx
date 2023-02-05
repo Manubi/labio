@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { TransactionProvider } from '../components/web3Wrap'
 
 import type { AppProps } from "next/app";
 
@@ -12,7 +13,9 @@ const inter = Inter({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className={`${inter.variable} font-sans h-full`}>
-      <Component {...pageProps} />
+      <TransactionProvider>
+        <Component {...pageProps} />
+      </TransactionProvider>
     </main>
   );
 }
