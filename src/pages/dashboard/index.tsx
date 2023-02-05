@@ -1,6 +1,14 @@
 import { DashboardLayout } from "@/components/dashboard/layout";
-
-import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import Stats from "@/components/dashboard/stats";
+import { WhatsNew } from "@/components/dashboard/whatsNew";
+import { bytesToSize } from "@/utils/bytesToSize";
+import { Routes } from "@/utils/routes";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import lighthouse from "@lighthouse-web3/sdk";
+import { Database } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 const positions = [
   {
@@ -9,32 +17,6 @@ const positions = [
     journal: "Nature",
     closeDate: "2020-01-07",
     closeDateFull: "January, 2020",
-    applicants: [
-      {
-        name: "Dries Vincent",
-        email: "dries.vincent@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Lindsay Walton",
-        email: "lindsay.walton@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Courtney Henry",
-        email: "courtney.henry@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Tom Cook",
-        email: "tom.cook@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-    ],
   },
   {
     id: 2,
@@ -43,26 +25,6 @@ const positions = [
     journal: "Cell",
     closeDate: "2020-01-07",
     closeDateFull: "January, 2020",
-    applicants: [
-      {
-        name: "Whitney Francis",
-        email: "whitney.francis@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Leonard Krasner",
-        email: "leonard.krasner@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Floyd Miles",
-        email: "floyd.miles@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-    ],
   },
   {
     id: 3,
@@ -71,107 +33,103 @@ const positions = [
     journal: "Science",
     closeDate: "2020-01-14",
     closeDateFull: "December, 2019",
-    applicants: [
-      {
-        name: "Emily Selman",
-        email: "emily.selman@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Kristin Watson",
-        email: "kristin.watson@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      {
-        name: "Emma Dorsey",
-        email: "emma.dorsey@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-    ],
   },
 ];
 
 export default function Dashboard() {
+  const [uploads, setUploads] = useState(undefined);
+  const { address } = useAccount();
+
+  useEffect(() => {
+    if (!address) return;
+    const getUploads = async () => {
+      //typed to any as the types from the lighthouse package are incorrect // todo manuel
+      const data: any = await lighthouse.getUploads(address);
+      console.log("data", data);
+      setUploads(data.data.uploads);
+    };
+    getUploads();
+  }, [address]);
+
+  if (!address)
+    return (
+      <DashboardLayout>
+        <div className="px-4 py-5 bg-white border-gray-200 rounded-lg sm:px-6">
+          Connect wallet top right
+        </div>
+      </DashboardLayout>
+    );
+
   return (
     <DashboardLayout>
-      <div className="px-4 py-5 bg-white border-b border-gray-200 rounded-t-lg sm:px-6">
-        <div className="flex flex-wrap items-center justify-between -mt-4 -ml-4 sm:flex-nowrap">
-          <div className="mt-4 ml-4">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Data
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              The data you have uploaded to the platform.
-            </p>
-          </div>
-          <div className="flex-shrink-0 mt-4 ml-4">
-            <button
-              type="button"
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Upload new data
-            </button>
+      <div className="grid max-w-screen-lg grid-cols-2 my-8 space-x-8 lg:mx-auto">
+        <Stats />
+        <WhatsNew />
+      </div>
+      <div className="max-w-screen-lg m-8 mx-8 bg-white border border-gray-300 rounded-lg lg:mx-auto">
+        <div className="px-4 py-5 bg-white border-b border-gray-200 rounded-t-lg sm:px-6">
+          <div className="flex flex-wrap items-center justify-between -mt-4 -ml-4 sm:flex-nowrap">
+            <div className="mt-4 ml-4">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Data
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                The data you have uploaded to the platform.
+              </p>
+            </div>
+            <div className="flex-shrink-0 mt-4 ml-4">
+              <Link
+                href={Routes.dashboard.paper.add}
+                className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                Upload new data
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="overflow-hidden bg-white sm:rounded-md">
-        <ul role="list" className="divide-y">
-          {positions.map((position) => (
-            <li key={position.id}>
-              <a href="#" className="block hover:bg-gray-50">
-                <div className="flex items-center px-4 py-4 sm:px-6">
-                  <div className="flex-1 min-w-0 sm:flex sm:items-center sm:justify-between">
-                    <div className="truncate">
-                      <div className="flex text-sm">
-                        <p className="font-medium text-indigo-600 truncate">
-                          {position.title}
-                        </p>
-                        <p className="flex-shrink-0 ml-1 font-normal text-gray-500">
+        <div className="overflow-hidden bg-white sm:rounded-md">
+          <ul role="list" className="divide-y">
+            {uploads &&
+              uploads.map((upload) => (
+                <li key={upload.id}>
+                  <a href="#" className="block hover:bg-gray-50">
+                    <div className="flex items-center px-4 py-4 sm:px-6">
+                      <div className="flex-1 min-w-0 sm:flex sm:items-center sm:justify-between">
+                        <div className="truncate">
+                          <div className="flex text-sm">
+                            <p className="font-medium text-indigo-600 truncate">
+                              {upload.fileName}
+                            </p>
+                            {/* <p className="flex-shrink-0 ml-1 font-normal text-gray-500">
                           in {position.journal}
-                        </p>
-                      </div>
-                      <div className="flex mt-2">
-                        <div className="flex items-center text-sm text-gray-500">
-                          <CalendarIcon
-                            className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          <p>
-                            Published in{" "}
-                            <time dateTime={position.closeDate}>
-                              {position.closeDateFull}
-                            </time>
-                          </p>
+                        </p> */}
+                          </div>
+                          <div className="flex mt-2">
+                            <div className="flex items-center text-sm text-gray-500">
+                              <Database
+                                className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              <p>{bytesToSize(upload.fileSizeInBytes)}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex-shrink-0 mt-4 sm:mt-0 sm:ml-5">
+                          <div className="flex -space-x-1 overflow-hidden"></div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex-shrink-0 mt-4 sm:mt-0 sm:ml-5">
-                      <div className="flex -space-x-1 overflow-hidden">
-                        {position.applicants.map((applicant) => (
-                          <img
-                            key={applicant.email}
-                            className="inline-block w-6 h-6 rounded-full ring-2 ring-white"
-                            src={applicant.imageUrl}
-                            alt={applicant.name}
-                          />
-                        ))}
+                      <div className="flex-shrink-0 ml-5">
+                        <ChevronRightIcon
+                          className="w-5 h-5 text-gray-400"
+                          aria-hidden="true"
+                        />
                       </div>
                     </div>
-                  </div>
-                  <div className="flex-shrink-0 ml-5">
-                    <ChevronRightIcon
-                      className="w-5 h-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </div>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
     </DashboardLayout>
   );

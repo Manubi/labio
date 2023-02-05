@@ -15,9 +15,11 @@
     "data-dao"
   ],
   "dependencies": {
+    "@ceramicnetwork/http-client": "^2.15.0",
+    "@composedb/client": "^0.3.0",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
-    "@lighthouse-web3/sdk": "^0.1.11",
+    "@lighthouse-web3/sdk": "^0.1.12",
     "@next/font": "13.1.4",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
@@ -33,6 +35,7 @@
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.4",
     "ethers": "^5.7.2",
+    "lucide-react": "^0.107.0",
     "next": "13.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -42,6 +45,9 @@
     "wagmi": "^0.10.15"
   },
   "devDependencies": {
+    "@composedb/devtools": "^0.3.0",
+    "@composedb/devtools-node": "^0.3.0",
+    "@composedb/types": "^0.3.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@types/elliptic": "^6.4.14",
