@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm prepare:submodule && next build",
+    "build": "next build",
+    "build:dev": "pnpm prepare:submodule && pnpm build",
     "start": "next start",
     "lint": "next lint",
     "prepare:submodule": "cd data-dao && git submodule update --init --remote filecoin-solidity && yarn compile",
