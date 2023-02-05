@@ -6,7 +6,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Avatar from "boring-avatars";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useNetwork } from "wagmi";
 import { Button } from "../button";
 
 const navigation = [
@@ -23,6 +23,8 @@ const userNavigation = [
 export function Navigation() {
   const [hasMounted, setHasMounted] = useState(false);
   const { address, connector, isConnected } = useAccount();
+  const { chain, chains } = useNetwork();
+
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
 
@@ -34,6 +36,22 @@ export function Navigation() {
 
   // Render
   if (!hasMounted) return null;
+
+  function truncate(
+    fullStr,
+    strLen = 8,
+    separator = "...",
+    frontChars = 4,
+    backChars = 4
+  ) {
+    if (fullStr.length <= strLen) return fullStr;
+
+    return (
+      fullStr.substr(0, frontChars) +
+      separator +
+      fullStr.substr(fullStr.length - backChars)
+    );
+  }
 
   return (
     <Disclosure as="header" className="bg-white shadow">
@@ -98,7 +116,18 @@ export function Navigation() {
                       Connect Wallet
                     </Button>
                   ))}
-                {isConnected && <div>{address}</div>}
+                <div className="flex flex-col text-right">
+                  {isConnected && (
+                    <div className="text-sm">
+                      <p>{truncate(address)}</p>
+                    </div>
+                  )}
+                  {chain && (
+                    <div className="text-xs text-gray-600">
+                      <p>{chain.name}</p>
+                    </div>
+                  )}
+                </div>
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative flex-shrink-0 ml-4">
                   <div>

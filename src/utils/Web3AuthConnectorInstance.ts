@@ -9,17 +9,18 @@ import { Chain } from "wagmi";
 const iconUrl = "https://web3auth.io/docs/contents/logo-ethereum.png";
 
 export const Web3AuthConnectorInstance = (chains: Chain[]) => {
+  console.log("chain", chains);
   // Create Web3Auth Instance
   const web3AuthInstance = new Web3Auth({
     clientId: process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID,
     chainConfig: {
       chainNamespace: CHAIN_NAMESPACES.EIP155,
-      chainId: "0x" + chains[0].id.toString(16),
-      rpcTarget: "https://rpc.ankr.com/polygon_mumbai", // This is the public RPC we have added, please pass on your own endpoint while creating an app
-      displayName: chains[0].name,
-      tickerName: chains[0].nativeCurrency?.name,
-      ticker: chains[0].nativeCurrency?.symbol,
-      blockExplorer: chains[0]?.blockExplorers.default?.url,
+      chainId: "0xc45",
+      rpcTarget: chains[1].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
+      displayName: chains[1].name,
+      tickerName: chains[1].nativeCurrency?.name,
+      ticker: chains[1].nativeCurrency?.symbol,
+      blockExplorer: chains[1]?.blockExplorers.gilf?.url,
     },
     uiConfig: {
       theme: "light",
