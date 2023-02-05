@@ -5,7 +5,8 @@ export const Routes = {
   dashboard: {
     landing: "/dashboard",
     paper: { landing: "/dashboard/paper", add: "/dashboard/paper/add" },
-    profile: "/dashboard/profile",
+    dao: { landing: "/dashboard/dao", add: "/dashboard/dao/add" },
+    profile: { landing: "/dashboard/profile" },
     settings: "/dashboard/settings",
   },
 };

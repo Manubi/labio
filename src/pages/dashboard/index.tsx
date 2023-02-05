@@ -74,7 +74,7 @@ export default function Dashboard() {
                 Data
               </h3>
               <p className="mt-1 text-sm text-gray-500">
-                The data you have uploaded to the platform.
+                The data you have uploaded to the IPFS.
               </p>
             </div>
             <div className="flex-shrink-0 mt-4 ml-4">
@@ -101,8 +101,8 @@ export default function Dashboard() {
                               {upload.fileName}
                             </p>
                             {/* <p className="flex-shrink-0 ml-1 font-normal text-gray-500">
-                          in {position.journal}
-                        </p> */}
+                              in {positions[0].journal}
+                            </p> */}
                           </div>
                           <div className="flex mt-2">
                             <div className="flex items-center text-sm text-gray-500">

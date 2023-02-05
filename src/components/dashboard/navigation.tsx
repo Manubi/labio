@@ -5,14 +5,16 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Avatar from "boring-avatars";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect, useNetwork } from "wagmi";
 import { Button } from "../button";
 
 const navigation = [
-  { name: "Dashboard", href: Routes.dashboard.landing, current: true },
-  { name: "Papers", href: Routes.dashboard.paper.landing, current: false },
-  { name: "Profile", href: "#", current: false },
+  { name: "Dashboard", href: Routes.dashboard.landing },
+  { name: "DAO", href: Routes.dashboard.dao.landing },
+  { name: "Papers", href: Routes.dashboard.paper.landing },
+  { name: "Profile", href: Routes.dashboard.profile.landing },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },
@@ -24,6 +26,8 @@ export function Navigation() {
   const [hasMounted, setHasMounted] = useState(false);
   const { address, connector, isConnected } = useAccount();
   const { chain, chains } = useNetwork();
+  const router = useRouter();
+  const path = router.asPath.split("?")[0];
 
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
@@ -181,12 +185,11 @@ export function Navigation() {
                   key={item.name}
                   href={item.href}
                   className={classNames(
-                    item.current
+                    path === item.href
                       ? "bg-gray-100 text-gray-900"
                       : "text-gray-900 hover:bg-gray-50 hover:text-gray-900",
                     "rounded-md py-2 px-3 inline-flex items-center text-sm font-medium"
                   )}
-                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Link>
@@ -202,12 +205,11 @@ export function Navigation() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current
+                    path === item.href
                       ? "bg-gray-100 text-gray-900"
                       : "text-gray-900 hover:bg-gray-50 hover:text-gray-900",
                     "block rounded-md py-2 px-3 text-base font-medium"
                   )}
-                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>

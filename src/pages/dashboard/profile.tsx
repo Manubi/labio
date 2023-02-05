@@ -1,3 +1,4 @@
+import { DashboardLayout } from "@/components/dashboard/layout";
 import { useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 
@@ -33,22 +34,24 @@ export default function Profile() {
     );
   }
   return (
-    <div className="flex flex-col space-y-4">
-      {connectors.map((connector) => (
-        <button
-          className="card"
-          disabled={!connector.ready}
-          key={connector.id}
-          onClick={() => connect({ connector })}
-        >
-          {connector.name}
-          {!connector.ready && " (unsupported)"}
-          {isLoading &&
-            connector.id === pendingConnector?.id &&
-            " (connecting)"}
-        </button>
-      ))}
-      {error && <div>{error.message}</div>}
-    </div>
+    <DashboardLayout>
+      <div className="flex flex-col space-y-4">
+        {connectors.map((connector) => (
+          <button
+            className="card"
+            disabled={!connector.ready}
+            key={connector.id}
+            onClick={() => connect({ connector })}
+          >
+            {connector.name}
+            {!connector.ready && " (unsupported)"}
+            {isLoading &&
+              connector.id === pendingConnector?.id &&
+              " (connecting)"}
+          </button>
+        ))}
+        {error && <div>{error.message}</div>}
+      </div>
+    </DashboardLayout>
   );
 }
