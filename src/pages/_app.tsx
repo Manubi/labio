@@ -2,13 +2,8 @@ import "@/styles/globals.css";
 // WAGMI Libraries
 import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import {
-  filecoin,
-  filecoinHyperspace,
-  polygon,
-  polygonMumbai,
-} from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
+import { filecoin, filecoinHyperspace } from "wagmi/chains";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import { Web3AuthConnectorInstance } from "@/utils/Web3AuthConnectorInstance";
 import { Inter } from "@next/font/google";
@@ -20,8 +15,14 @@ const inter = Inter({
 
 // Configure chains & providers with the Public provider.
 const { chains, provider, webSocketProvider } = configureChains(
-  [polygon, polygonMumbai, filecoin, filecoinHyperspace],
-  [publicProvider()]
+  [filecoin, filecoinHyperspace],
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://api.hyperspace.node.glif.io/rpc/v1`,
+      }),
+    }),
+  ]
 );
 
 // Set up client

@@ -318,11 +318,45 @@
               "internalType": "uint256",
               "name": "size",
               "type": "uint256"
+            },
+            {
+              "internalType": "int64",
+              "name": "startTime",
+              "type": "int64"
             }
           ],
           "name": "authorizeData",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes",
+              "name": "cidraw",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint64",
+              "name": "provider",
+              "type": "uint64"
+            }
+          ],
+          "name": "checkProvider",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            },
+            {
+              "internalType": "int64",
+              "name": "",
+              "type": "int64"
+            }
+          ],
+          "stateMutability": "view",
           "type": "function"
         },
         {
@@ -371,11 +405,42 @@
           "outputs": [
             {
               "internalType": "bool",
-              "name": "",
+              "name": "isProvider",
               "type": "bool"
+            },
+            {
+              "internalType": "int64",
+              "name": "lastClaimed",
+              "type": "int64"
             }
           ],
           "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint64",
+              "name": "deal_id",
+              "type": "uint64"
+            }
+          ],
+          "name": "claimBounty",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint64",
+              "name": "deal_id",
+              "type": "uint64"
+            }
+          ],
+          "name": "claimRewardFromBounty",
+          "outputs": [],
+          "stateMutability": "nonpayable",
           "type": "function"
         },
         {
@@ -422,7 +487,7 @@
           "type": "function"
         }
       ],
-      "contractAddress": "0xA4044fC851ec5Fc2571fdEcF73c5A05bBd0D11c4"
+      "contractAddress": "0x5939798De7712a2d118471264f8525132dc30363"
     }
   }
 }
