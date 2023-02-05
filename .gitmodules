@@ -1,0 +1,3 @@
+[submodule "data-dao"]
+	path = data-dao
+	url = https://github.com/DuhCompuder/DataDao
