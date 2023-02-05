@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && yarn workspace data-dao compile",
     "start": "next start",
     "lint": "next lint",
     "get:deploy-info": "mkdir -p blockchain-util && cp ./data-dao/src/deployment/OperatingDeploymentInfo.json ./blockchain-util/OperatingDeploymentInfo.json",
