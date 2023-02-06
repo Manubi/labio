@@ -8,10 +8,7 @@
     "build:dev": "pnpm prepare:submodule && pnpm build",
     "start": "next start",
     "lint": "next lint",
-<<<<<<< HEAD
-=======
     "prepare:submodule": "cd data-dao && git submodule update --init --remote filecoin-solidity && yarn compile",
->>>>>>> 426f2c1ed6abaa25b1155c6521589f62e64168b5
     "get:deploy-info": "mkdir -p blockchain-util && cp ./data-dao/src/deployment/OperatingDeploymentInfo.json ./blockchain-util/OperatingDeploymentInfo.json",
     "update:data-dao": "git submodule update --remote data-dao"
   },

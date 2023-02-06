@@ -10,6 +10,10 @@ const iconUrl = "https://web3auth.io/docs/contents/logo-ethereum.png";
 
 export const Web3AuthConnectorInstance = (chains: Chain[]) => {
   console.log("chain", chains);
+  console.log(
+    "process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID",
+    process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID
+  );
   // Create Web3Auth Instance
   const web3AuthInstance = new Web3Auth({
     clientId: process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID,

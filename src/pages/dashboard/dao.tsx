@@ -19,12 +19,7 @@ export default function Dao() {
     address: contractAbi.DataDaoManager[3141].contractAddress as Address,
     abi: contractAbi.DataDaoManager[3141].contractABI,
     functionName: "createNewInstitutionDAO",
-    args: [
-      {
-        name: "FirstDAo",
-        initialOwners: ["0xa2D41d7e830F3a5c09ec04cC800BC2bA57665d6B"],
-      },
-    ],
+    args: [ "FirstDAo", ["0xa2D41d7e830F3a5c09ec04cC800BC2bA57665d6B"]],
   });
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
