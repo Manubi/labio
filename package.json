@@ -13,7 +13,7 @@
     "update:data-dao": "git submodule update --remote data-dao"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.9",
+    "@headlessui/react": "^1.7.10",
     "@heroicons/react": "^2.0.14",
     "@lighthouse-web3/sdk": "^0.1.12",
     "@next/font": "13.1.4",

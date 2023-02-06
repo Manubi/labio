@@ -115,7 +115,11 @@ export default function Dashboard() {
             {uploads &&
               uploads.map((upload) => (
                 <li key={upload.id}>
-                  <a href="#" className="block hover:bg-gray-50">
+                  <a
+                    href={`https://gateway.lighthouse.storage/ipfs/${upload.cid}`}
+                    className="block hover:bg-gray-50"
+                    target="_blank"
+                  >
                     <div className="flex items-center px-4 py-4 sm:px-6">
                       <div className="flex-1 min-w-0 sm:flex sm:items-center sm:justify-between">
                         <div className="truncate">
