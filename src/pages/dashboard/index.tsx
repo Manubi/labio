@@ -11,42 +11,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
 
-const positions = [
-  {
-    id: 1,
-    title: "Mesolimbic dopamine adapts the rate of learning from action",
-    journal: "Nature",
-    closeDate: "2020-01-07",
-    closeDateFull: "January, 2020",
-  },
-  {
-    id: 2,
-    title:
-      "In-plane charged domain walls with memristive behaviour in a ferroelectric film",
-    journal: "Cell",
-    closeDate: "2020-01-07",
-    closeDateFull: "January, 2020",
-  },
-  {
-    id: 3,
-    title:
-      "The person-to-person transmission landscape of the gut and oral microbiomes",
-    journal: "Science",
-    closeDate: "2020-01-14",
-    closeDateFull: "December, 2019",
-  },
-];
-type TUpload = {
-  cid: string;
-  createdAtd: number;
-  encryption: false;
-  fileName: string;
-};
 export default function Dashboard() {
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
 
-  const [uploads, setUploads] = useState<TUpload[]>([]);
+  const [uploads, setUploads] = useState([]);
   const { address, connector, isConnected } = useAccount();
 
   useEffect(() => {
@@ -60,22 +29,22 @@ export default function Dashboard() {
     getUploads();
   }, [address]);
 
-  useEffect(() => {
-    async function getAll() {
-      const data = [];
+  // useEffect(() => {
+  //   async function getAll() {
+  //     const data = [];
 
-      await Promise.all(
-        uploads.map(async (upload, j) => {
-          await lighthouse
-            .getAccessConditions(upload.cid)
-            .then((res) => data.push(res));
-        })
-      );
+  //     await Promise.all(
+  //       uploads.map(async (upload, j) => {
+  //         await lighthouse
+  //           .getAccessConditions(upload.cid)
+  //           .then((res) => data.push(res));
+  //       })
+  //     );
 
-      console.log("response", data);
-    }
-    getAll();
-  }, [uploads]);
+  //     console.log("response", data);
+  //   }
+  //   getAll();
+  // }, [uploads]);
 
   if (!address)
     return (
