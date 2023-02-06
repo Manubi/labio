@@ -1,17 +1,18 @@
 import contractAbi from "@/utils/contractAbi.json";
+import { useDataDaoManagerGetAllInstitutionRegisteredToUser } from "@/utils/generated";
 import { ChevronRightIcon, Database } from "lucide-react";
-import { Address, useContractRead } from "wagmi";
+import { Address, useAccount } from "wagmi";
 
 export default function GetDaos() {
-  const { data, isError, isLoading } = useContractRead({
+  const { address } = useAccount();
+
+  const { data } = useDataDaoManagerGetAllInstitutionRegisteredToUser({
     address: contractAbi.DataDaoManager[3141].contractAddress as Address,
-    abi: contractAbi.DataDaoManager[3141].contractABI,
-    functionName: "allInstitutions",
+    args: [address],
   });
 
-  if (isLoading) return <p>Loading...</p>;
   if (!data) return null;
-
+  console.log("data", data);
   return (
     <div className="overflow-hidden bg-white sm:rounded-md">
       <ul role="list" className="divide-y">
@@ -22,12 +23,12 @@ export default function GetDaos() {
                 <div className="truncate">
                   <div className="flex text-sm">
                     <p className="font-medium text-indigo-600 truncate">
-                      first file className
+                      first dao you are a member of
                     </p>
                     {/* <p className="flex-shrink-0 ml-1 font-normal text-gray-500">
                               in {positions[0].journal}
                             </p> */}
-                    {data && <p>{data as any}</p>}
+                    {data && <p>{JSON.stringify(data, null, 2)}</p>}
                   </div>
                   <div className="flex mt-2">
                     <div className="flex items-center text-sm text-gray-500">

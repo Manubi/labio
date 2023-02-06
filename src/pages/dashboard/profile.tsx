@@ -24,13 +24,15 @@ export default function Profile() {
 
   if (isConnected) {
     return (
-      <div className="main">
-        <div className="title">Connected to {connector?.name}</div>
-        <div>{address}</div>
-        <button className="card" onClick={disconnect as any}>
-          Disconnect
-        </button>
-      </div>
+      <DashboardLayout>
+        <div className="main">
+          <div className="title">Connected to {connector?.name}</div>
+          <div>{address}</div>
+          <button className="card" onClick={disconnect as any}>
+            Disconnect
+          </button>
+        </div>
+      </DashboardLayout>
     );
   }
   return (

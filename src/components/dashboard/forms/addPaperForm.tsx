@@ -64,20 +64,9 @@ export function AddPaperForm() {
     return url;
   };
 
-  const getAccessConditions = async () => {
-    const cid = "QmdK4iv8R1VBuE62ZEse4sSmmKfqGWDtxkngzwwmZbeHeH";
-    const response = await lighthouse.getAccessConditions(cid);
-
-    // Display response
-    console.log("ACCESSCON:", response);
-  };
-  console.log("encrypted :>>", encrypted);
   return (
     <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="flex flex-col">
-        <button onClick={() => getAccessConditions()}>
-          get Access Conditions
-        </button>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 ">
           <div className="space-y-8 ">
             <div>

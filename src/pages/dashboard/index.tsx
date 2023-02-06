@@ -1,3 +1,4 @@
+import { Button } from "@/components/button";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import Stats from "@/components/dashboard/stats";
 import { WhatsNew } from "@/components/dashboard/whatsNew";
@@ -8,7 +9,7 @@ import lighthouse from "@lighthouse-web3/sdk";
 import { Database } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 
 const positions = [
   {
@@ -35,10 +36,18 @@ const positions = [
     closeDateFull: "December, 2019",
   },
 ];
-
+type TUpload = {
+  cid: string;
+  createdAtd: number;
+  encryption: false;
+  fileName: string;
+};
 export default function Dashboard() {
-  const [uploads, setUploads] = useState(undefined);
-  const { address } = useAccount();
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
+
+  const [uploads, setUploads] = useState<TUpload[]>([]);
+  const { address, connector, isConnected } = useAccount();
 
   useEffect(() => {
     if (!address) return;
@@ -51,11 +60,56 @@ export default function Dashboard() {
     getUploads();
   }, [address]);
 
+  useEffect(() => {
+    async function getAll() {
+      const data = [];
+
+      await Promise.all(
+        uploads.map(async (upload, j) => {
+          await lighthouse
+            .getAccessConditions(upload.cid)
+            .then((res) => data.push(res));
+        })
+      );
+
+      console.log("response", data);
+    }
+    getAll();
+  }, [uploads]);
+
   if (!address)
     return (
       <DashboardLayout>
-        <div className="px-4 py-5 bg-white border-gray-200 rounded-lg sm:px-6">
-          Connect wallet top right
+        {" "}
+        <div className="max-w-screen-lg m-8 mx-8 bg-white border border-gray-300 rounded-lg lg:mx-auto">
+          <div className="px-4 py-5 sm:px-6">
+            <div className="flex flex-wrap items-center justify-between -mt-4 -ml-4 sm:flex-nowrap">
+              <div className="mt-4 ml-4">
+                <h3 className="text-lg font-medium leading-6 text-gray-900">
+                  Welcome to the next stage of data sharing
+                </h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  We welcome you to our app dashboard! Here you can create DAOs,
+                  invite members, and upload and share data with ease. Whether
+                  you're looking to collaborate with a group of colleagues or
+                  share information with a wider network, our platform has the
+                  tools you need to get the job done. Start exploring now to see
+                  how we can help you take your organization to the next level!
+                </p>
+
+                {!isConnected &&
+                  connectors.map((connector) => (
+                    <Button
+                      key={connector.id}
+                      onClick={() => connect({ connector })}
+                      className="mt-6"
+                    >
+                      Start here
+                    </Button>
+                  ))}
+              </div>
+            </div>
+          </div>
         </div>
       </DashboardLayout>
     );

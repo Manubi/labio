@@ -161,6 +161,11 @@ export function Navigation() {
                           {({ active }) => (
                             <Link
                               href={item.href}
+                              onClick={
+                                item.name === "Sign out"
+                                  ? () => disconnect()
+                                  : null
+                              }
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block py-2 px-4 text-sm text-gray-700"

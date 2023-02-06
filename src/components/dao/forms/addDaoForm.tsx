@@ -35,7 +35,7 @@ export function AddDaoForm() {
   }
 
   return (
-    <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div className="px-4 py-8 mx-auto max-w-4xl sm:px-6 lg:px-8">
       <div className="flex flex-col">
         <form onSubmit={onSubmit} className="space-y-8 ">
           <div className="space-y-8 ">
@@ -45,11 +45,11 @@ export function AddDaoForm() {
                   Create a new DAO
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
-                  This creates a new data DAO contract which will be deployed to
-                  Filecon Hyperspace.
+                  This creates a new data DAO which will be saved on the Filecon
+                  Hyperspace network.
                 </p>
               </div>
-              <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 ">
                 <div className="sm:col-span-4">
                   <label
                     htmlFor="name"
@@ -73,7 +73,7 @@ export function AddDaoForm() {
                     htmlFor="owners"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    DAO owner addresses
+                    DAO owner address
                   </label>
                   <div className="flex mt-1 rounded-md shadow-sm">
                     <input
@@ -102,36 +102,47 @@ export function AddDaoForm() {
                   </div>
                 </div>
               </div>
-              <ul role="list" className="grid max-w-md grid-cols-1 gap-5 mt-3">
-                <li
-                  key={owner}
-                  className="flex col-span-1 rounded-md shadow-sm"
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="owners"
+                  className="block text-sm font-medium text-gray-700 mt-3"
                 >
-                  <div className="flex items-center justify-center flex-shrink-0 w-16 text-sm font-medium text-white bg-indigo-600 rounded-l-md">
-                    {";-)"}
-                  </div>
-                  <div className="flex items-center justify-between flex-1 truncate bg-white border-t border-b border-r border-gray-200 rounded-r-md">
-                    <div className="flex-1 px-4 py-2 text-sm truncate">
-                      <p className="text-gray-500"> {address}</p>
-                    </div>
-                  </div>
-                </li>
-                {owners.map((owner) => (
+                  DAO owners
+                </label>
+                <ul
+                  role="list"
+                  className="grid max-w-md grid-cols-1 gap-5 mt-1"
+                >
                   <li
                     key={owner}
                     className="flex col-span-1 rounded-md shadow-sm"
                   >
                     <div className="flex items-center justify-center flex-shrink-0 w-16 text-sm font-medium text-white bg-indigo-600 rounded-l-md">
-                      Ox
+                      {";-)"}
                     </div>
                     <div className="flex items-center justify-between flex-1 truncate bg-white border-t border-b border-r border-gray-200 rounded-r-md">
                       <div className="flex-1 px-4 py-2 text-sm truncate">
-                        <p className="text-gray-500">{owner}</p>
+                        <p className="text-gray-500"> {address}</p>
                       </div>
                     </div>
                   </li>
-                ))}
-              </ul>
+                  {owners.map((owner) => (
+                    <li
+                      key={owner}
+                      className="flex col-span-1 rounded-md shadow-sm"
+                    >
+                      <div className="flex items-center justify-center flex-shrink-0 w-16 text-sm font-medium text-white bg-indigo-600 rounded-l-md">
+                        Ox
+                      </div>
+                      <div className="flex items-center justify-between flex-1 truncate bg-white border-t border-b border-r border-gray-200 rounded-r-md">
+                        <div className="flex-1 px-4 py-2 text-sm truncate">
+                          <p className="text-gray-500">{owner}</p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               {isSuccess && (
                 <div>
                   Successfully created DAO with address:
@@ -144,16 +155,18 @@ export function AddDaoForm() {
                   </div>
                 </div>
               )}
+              <div className="flex justify-end mt-6">
+                <Button type="button" variant="white" onClick={clearForm}>
+                  Clear form
+                </Button>
+                <Button
+                  type="submit"
+                  className="inline-flex justify-center ml-3"
+                >
+                  Create DAO
+                </Button>
+              </div>
             </div>
-          </div>
-
-          <div className="flex justify-end">
-            <Button type="button" variant="white" onClick={clearForm}>
-              Clear form
-            </Button>
-            <Button type="submit" className="inline-flex justify-center ml-3">
-              Create DAO
-            </Button>
           </div>
         </form>
       </div>
