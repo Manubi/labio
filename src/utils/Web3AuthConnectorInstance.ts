@@ -32,7 +32,7 @@ export const Web3AuthConnectorInstance = (chains: Chain[]) => {
   // Add openlogin adapter for customisations
   const openloginAdapterInstance = new OpenloginAdapter({
     adapterSettings: {
-      network: "cyan",
+      network: "testnet",
       uxMode: "popup",
       whiteLabel: {
         name: "Labio",
