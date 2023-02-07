@@ -580,7 +580,7 @@
           "type": "function"
         }
       ],
-      "contractAddress": "0x0480336eb851dfEe5CDAae66ff3f35E4a5fc96af"
+      "contractAddress": "0x2c97E3A8Ae5DD20712AEaE7B257b7019b6567689"
     },
     "31337": {
       "networkId": 31337,
@@ -950,7 +950,7 @@
           "type": "function"
         }
       ],
-      "contractAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+      "contractAddress": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
     }
   },
   "Institution": {
