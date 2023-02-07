@@ -3,6 +3,8 @@
 This is the application's repository for Labio. For links to the application and smart contracts repo, check below.
 <br />
 
+![Architecture](./public/labio.png)
+
 ## Description
 
 Labio offers researchers of institutions an alternative data storage, access and maintenance. With Labio's DataDao, important data can be storage perpetually by enabling storage to an open-sourced marketplace letting funders and storage providers decide what information is important to keep for the long run. Data is such that it is encrypted only for peer reviewers to see yet they can be stored by anyone preserving the data.
